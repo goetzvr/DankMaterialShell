@@ -112,3 +112,6 @@ bin/
 .direnv/
 quickshell/dms-plugins
 __pycache__
+distro/arch/
+quickshell/.qs-build/
+core/dms

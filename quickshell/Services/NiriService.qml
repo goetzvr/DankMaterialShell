@@ -770,6 +770,18 @@ Singleton {
         });
     }
 
+    function switchToKeyboardLayout(index) {
+        if (index < 0 || index >= keyboardLayoutNames.length)
+            return;
+        return send({
+            "Action": {
+                "SwitchLayout": {
+                    "layout": index
+                }
+            }
+        });
+    }
+
     function cycleKeyboardLayout() {
         return send({
             "Action": {

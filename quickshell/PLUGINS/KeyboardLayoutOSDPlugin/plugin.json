@@ -1,0 +1,16 @@
+{
+    "id": "keyboardLayoutOSDPlugin",
+    "name": "Keyboard Layout OSD",
+    "description": "Shows keyboard layout OSD when switching windows (Niri only)",
+    "version": "0.1.0",
+    "author": "goetzvr",
+    "type": "daemon",
+    "capabilities": ["osd", "keyboard"],
+    "component": "./KeyboardLayoutOSDPlugin.qml",
+    "icon": "keyboard",
+    "settings": "./KeyboardLayoutOSDSettings.qml",
+    "permissions": [
+        "settings_read",
+        "settings_write"
+    ]
+}

@@ -9,6 +9,18 @@ import qs.Widgets
 BasePill {
     id: root
 
+    // Hide widget on Niri when plugin's "Hide Top Bar Widget" setting is enabled
+    // Timer updates this value every 500ms for immediate reactivity
+    property bool shouldHideForNiri: {
+        if (!CompositorService.isNiri) return false;
+        const plugin = PluginService.loadedPlugins?.["keyboardLayoutOSDPlugin"];
+        if (!plugin) return false;
+        // Read from SettingsData, not plugin.data
+        return SettingsData.getPluginSetting("keyboardLayoutOSDPlugin", "hideTopBarWidget", false) === true;
+    }
+
+    visible: !shouldHideForNiri
+
     property var widgetData: null
     property bool compactMode: widgetData?.keyboardLayoutNameCompactMode !== undefined ? widgetData.keyboardLayoutNameCompactMode : SettingsData.keyboardLayoutNameCompactMode
     readonly property var langCodes: ({
@@ -108,14 +120,7 @@ BasePill {
             "zulu": "zu"
         })
     readonly property var validVariants: ["US", "UK", "GB", "AZERTY", "QWERTY", "Dvorak", "Colemak", "Mac", "Intl", "International"]
-    property string currentLayout: {
-        if (CompositorService.isNiri) {
-            return NiriService.getCurrentKeyboardLayoutName();
-        } else if (CompositorService.isDwl) {
-            return DwlService.currentKeyboardLayout;
-        }
-        return "";
-    }
+    property string currentLayout: KeyboardLayoutService.currentKeyboardLayoutDisplay || ""
     property string hyprlandKeyboard: ""
 
     content: Component {
@@ -263,6 +268,21 @@ BasePill {
                     root.currentLayout = "Unknown";
                 }
             });
+        }
+    }
+
+    // Poll plugin setting every 500ms for immediate reactivity without restart
+    Timer {
+        interval: 500
+        running: CompositorService.isNiri
+        repeat: true
+        onTriggered: {
+            // Read from SettingsData directly
+            const hideValue = SettingsData.getPluginSetting("keyboardLayoutOSDPlugin", "hideTopBarWidget", false);
+            const shouldHide = hideValue === true;
+            if (root.shouldHideForNiri !== shouldHide) {
+                root.shouldHideForNiri = shouldHide;
+            }
         }
     }
 }
