@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Services.SystemTray
@@ -366,6 +367,10 @@ BasePill {
                             smooth: true
                             mipmap: true
                             visible: status === Image.Ready
+                            layer.enabled: SettingsData.systemTrayMonochromeIcons
+                            layer.effect: MultiEffect {
+                                saturation: -1
+                            }
                         }
 
                         Text {
@@ -581,6 +586,10 @@ BasePill {
                     smooth: true
                     mipmap: true
                     visible: status === Image.Ready
+                    layer.enabled: SettingsData.systemTrayMonochromeIcons
+                    layer.effect: MultiEffect {
+                        saturation: -1
+                    }
                 }
 
                 Text {
@@ -709,6 +718,10 @@ BasePill {
                     smooth: true
                     mipmap: true
                     visible: status === Image.Ready
+                    layer.enabled: SettingsData.systemTrayMonochromeIcons
+                    layer.effect: MultiEffect {
+                        saturation: -1
+                    }
                 }
 
                 Text {
@@ -1210,6 +1223,10 @@ BasePill {
                             smooth: true
                             mipmap: true
                             visible: status === Image.Ready
+                            layer.enabled: SettingsData.systemTrayMonochromeIcons
+                            layer.effect: MultiEffect {
+                                saturation: -1
+                            }
                         }
 
                         Text {
